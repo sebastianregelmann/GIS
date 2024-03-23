@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.center {
+    width: 80vh;
+    /* 50% of the viewport height */
+    height: 80vh;
+    /* 50% of the viewport height */
+    margin: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+}
+
+.center div {
+    background-color: #5c5c5c;
+    border: 1px solid #e7e7e7;
+}
+
+.column {
+    width: 15vw;
+    /* 25% of the viewport width */
+    height: 80vh;
+    /* 25% of the viewport height */
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    /* Center the child elements horizontally */
+}
+
+.colorPicker {
+    margin: 5px;
+    height: 30px;
+    width: 30px;
+    background-color: black;
+}
+
+.button {
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+}
+
+.logo {
+    width: 10%;
+    height: 10%;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+
+    .center {
+        width: calc(100vh-20px);
+        /* Set width to 100% for full width */
+        height: calc(100vh-20px);
+        /* Reset height to auto */
+        margin-bottom: 10px;
+    }
+
+    .column {
+        width: calc(100vh-20px);
+        /* Set width to 100% for full width */
+        height: calc(100vh-20px);
+        /* Reset height to auto */
+        margin-bottom: 10px;
+    }
+}
