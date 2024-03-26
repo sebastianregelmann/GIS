@@ -9,49 +9,99 @@ body {
     justify-content: center;
 }
 
-.center {
-    width: 80vh;
-    /* 50% of the viewport height */
-    height: 80vh;
-    /* 50% of the viewport height */
-    margin: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    display: grid;
-    grid-template-columns: repeat(16, 1fr);
-    grid-template-rows: repeat(16, 1fr);
-}
-
-.center div {
-    width: 100%;
-    height: 100%;
-    background-color: #5c5c5c;
-    border: 1px solid #e7e7e7;
-}
-
 .column {
-    width: 15vw;
-    /* 25% of the viewport width */
-    height: 80vh;
-    /* 25% of the viewport height */
-    padding: 10px;
     margin: 5px;
     border: 1px solid #ccc;
     box-sizing: border-box;
     /* Center the child elements horizontally */
 }
 
-.colorPicker {
-    margin: 5px;
-    height: 30px;
-    width: 30px;
-    background-color: black;
+.corner {
+    padding: 10px;
+    width: 15vw;
+    /* 25% of the viewport width */
+    height: min(80vh, 80vw);
 }
 
-.button {
-    margin: 5px;
-    width: 50px;
-    height: 50px;
+.center {
+    background-image: url(Img/Background.png);
+
+    width: min(80vh, 80vw);
+    /* 50% of the viewport height */
+    height: min(80vh, 80vw);
+    /* 50% of the viewport height */
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+
+}
+
+.color-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.center div {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(red, green, blue, 1);
+    border: 1px solid #ff626266;
+}
+
+.color-show {
+    /* margin to space the buttons vertically and horizontally */
+    flex-grow: 1;
+    /* allow the button to grow and fill the available space */
+    margin: 1%;
+    width: 100%;
+    /* adjust to ensure two buttons fit within the row */
+    height: 15%;
+    background-color: blanchedalmond;
+}
+
+.palette-wrapper {
+    flex-grow: 1;
+    /* allow the button to grow and fill the available space */
+    margin-left: 2%;
+    width: 48%;
+    /* adjust to ensure two buttons fit within the row */
+    height: 100%;
+    border: solid;
+    background-color: rgb(183, 26, 26);
+}
+
+.color-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-grow: 1;
+    /* allow the row to grow and fill the available space */
+    margin-bottom: 2%;
+    /* space between rows, adjust as needed */
+}
+
+.menu-wrapper {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.menu-button {
+    margin-bottom: 15%;
+    /* margin to space the buttons vertically and horizontally */
+    flex-grow: 1;
+    /* allow the button to grow and fill the available space */
+    width: 100%;
+    /* adjust to ensure two buttons fit within the row */
+    height: 100%;
+
+    /* adjust to ensure the buttons scale vertically */
 }
 
 .logo {
