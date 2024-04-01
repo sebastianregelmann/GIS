@@ -3,7 +3,9 @@
 ## Idee
 Die Website ist ein Editor um Pixelarts zu erstellen. Auf der seite kann man auf einer 16x16 großen Fläche. Die erstellten Bilder kann man daraufhin exportieren oder auf der Website speichern. 
 ### Hauptseite
-  Auf der Hauptseite kann man Links eine Farbe sowie die zuletzt verwendeten Farben wählen. In der Mitte ist die 16x16 große bearbeitungsfläche in der man seine Bilder bearbeiten kann. Auf der rechten Seite kann man sein Projekt speichern, eine neues Projekt erstellen, ein altes Projekt laden oder das jetzige Projekt exportieren. 
+Auf der Hauptseite kann man Links aus einer beim erstellen des Projekts ausgewählten Farbpalette eine Farbe wählen mit der man zeichnen möchte. In der Mitte ist die 16x16 große Bearbeitungsfläche in der man seine Bilder bearbeiten kann. Auf der rechten Seite kann man sein Projekt speichern, eine neues Projekt erstellen, ein altes Projekt laden oder das jetzige Projekt exportieren. 
+### Projekt erstellen
+Auf dieser Seite kann man ein Projekt erstellen wählt man aus mit welchen Farben man sein Bild zeichnen möchte. Man kann 16 verschiedene Farben festlegen die dann für das Projekt gespeichert werden.
 ### Speicher/Ladeseite
 Auf dieser Seite kann man sein projekt speichern und einen Namen geben oder ein bereits gespeichertes Projekt laden. 
 ### Elemente die Gespeichert werden
