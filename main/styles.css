@@ -21,10 +21,12 @@ body {
     width: 15vw;
     /* 25% of the viewport width */
     height: min(80vh, 80vw);
+    display: flex;
+    flex-direction: column;
 }
 
 .center {
-    background-image: url(Img/Background.png);
+    background-image: url(../Img/Background.png);
 
     width: min(80vh, 80vw);
     /* 50% of the viewport height */
@@ -36,15 +38,6 @@ body {
 
 }
 
-.color-wrapper {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
 .center div {
     width: 100%;
     height: 100%;
@@ -52,36 +45,24 @@ body {
     border: 1px solid #ff626266;
 }
 
-.color-show {
-    /* margin to space the buttons vertically and horizontally */
-    flex-grow: 1;
-    /* allow the button to grow and fill the available space */
-    margin: 1%;
-    width: 100%;
-    /* adjust to ensure two buttons fit within the row */
-    height: 15%;
-    background-color: blanchedalmond;
-}
-
-.palette-wrapper {
-    flex-grow: 1;
-    /* allow the button to grow and fill the available space */
-    margin-left: 2%;
-    width: 48%;
-    /* adjust to ensure two buttons fit within the row */
-    height: 100%;
-    border: solid;
-    background-color: rgb(183, 26, 26);
-}
-
 .color-row {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    flex-grow: 1;
+    height: 100%;
     /* allow the row to grow and fill the available space */
-    margin-bottom: 2%;
+    margin-bottom: 4%;
     /* space between rows, adjust as needed */
+}
+
+.color-select {
+    /* allow the button to grow and fill the available space */
+    margin-left: 4%;
+    width: 48%;
+    /* adjust to ensure two buttons fit within the row */
+    height: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .menu-wrapper {
@@ -89,7 +70,6 @@ body {
     height: 30%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
 }
 
 .menu-button {
