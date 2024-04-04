@@ -38,5 +38,10 @@ function colorSelected(colorId) {
     selectedColor = localStorage.getItem(colorId.id);
 }
 
+function drawPixel(pixel_Id) {
+    var pixel = document.getElementById(pixel_Id);
+    pixel.style.backgroundColor = selectedColor;
+}
+
 
 var selectedColor = "";
