@@ -5,43 +5,60 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Main</title>
         <link rel="stylesheet" href="create-styles.css">
+        <script src="create.js" defer></script>
     </head>
     <img src="https://gamebanana.com/wips/embeddables/74129?variant=sd_image"
         class="logo" />
     <body>
         <div class="container">
             <div class="name-wrapper">
-                <input type="text" placeholder="name: ">
+                <input type="text" placeholder="Give the projekt a name:" id="NameInput">
             </div>
             <div class="color-wrapper">
                 <div class=" color-row">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
+                    <input type="color" id="color_1"
+                        onchange="colorChange(color_1)">
+                    <input type="color" id="color_2"
+                        onchange="colorChange(color_2)">
+                    <input type="color" id="color_3"
+                        onchange="colorChange(color_3)">
+                    <input type="color" id="color_4"
+                        onchange="colorChange(color_4)">
                 </div>
                 <div class=" color-row">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
+                    <input type="color" id="color_5"
+                        onchange="colorChange(color_5)">
+                    <input type="color" id="color_6"
+                        onchange="colorChange(color_6)">
+                    <input type="color" id="color_7"
+                        onchange="colorChange(color_7)">
+                    <input type="color" id="color_8"
+                        onchange="colorChange(color_8)">
                 </div>
                 <div class=" color-row">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
+                    <input type="color" id="color_9"
+                        onchange="colorChange(color_9)">
+                    <input type="color" id="color_10"
+                        onchange="colorChange(color_10)">
+                    <input type="color" id="color_11"
+                        onchange="colorChange(color_11)">
+                    <input type="color" id="color_12"
+                        onchange="colorChange(color_12)">
                 </div>
                 <div class=" color-row">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
-                    <input type="color">
+                    <input type="color" id="color_13"
+                        onchange="colorChange(color_13)">
+                    <input type="color" id="color_14"
+                        onchange="colorChange(color_14)">
+                    <input type="color" id="color_15"
+                        onchange="colorChange(color_15)">
+                    <input type="color" id="color_16"
+                        onchange="colorChange(color_16)">
                 </div>
             </div>
             <div class="button-wrapper">
-                <input type="button" value="cancel">
-                <input type="button" value="create"  onclick="window.location.href='../main/main.html'">
+                <input type="button" value="cancel" onclick="meineFunktion()">
+                <input type="button" value="create" onclick="createSite()">
             </div>
         </div>
     </body>

@@ -7,7 +7,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid grey;
     box-sizing: content-box;
     padding-bottom: 2%;
 }
@@ -67,6 +66,7 @@ input[type="color"] {
     padding: none;
     margin: none;
     border: none;
+    cursor: pointer;
 }
 
 input[type="button"] {
