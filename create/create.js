@@ -10,17 +10,17 @@ var colorPalette = {
     color_3: "#A8A8A8",      //light grey
     color_4: "#FFFFFF",      // white
     //second row
-    color_5: "#FF0000",// red
+    color_5: "#FF0000",
     color_6: "#FF8000",
     color_7: "#FFFF00",
     color_8: "#80FF00",
     //third row
-    color_9: "#00FF00", // green
+    color_9: "#00FF00",
     color_10: "#00FF80",
     color_11: "#00FFFF",
     color_12: "#0080FF",
     //forth row
-    color_13: "#0000FF", // blue
+    color_13: "#0000FF",
     color_14: "#8000FF",
     color_15: "#FF00FF",
     color_16: "#FF0080",
