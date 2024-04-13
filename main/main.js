@@ -82,19 +82,6 @@ function rgbToHex(col) {
     }
 }
 
-function drawPixel(pixel_Id) {
-    var pixel = document.getElementById(pixel_Id);
-    pixel.style.backgroundColor = selectedColor;
-}
-
-function clickCanvas() {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = selectedColor;
-    ctx.fillRect(10, 10, 150, 100);
-}
-
 function resizedWindow() {
     var size;
     //get how big the center column can be
@@ -119,14 +106,108 @@ function resizedWindow() {
     cornerRight.style.height = (size * 0.8).toString() + "px";
 }
 
+
+
 function isHeightSmaller() {
-    if (window.innerWidth > window.innerHeight) {
+    if (window.innerWidth - 200 > window.innerHeight) {
         return true;
     }
     return false;
 }
+/*************************************************************************
+ **********Drawing in canvas functions************************************
+ *************************************************************************/
 
+// Get the canvas element
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+var mousePos;
 
+function clickCanvas() {
+    //draw rectangle
+
+    //get the pixel size
+    var pixelSize = getPixelSize()
+
+    //Erase from canvas if eraser is selected
+    if (selectedColor == "eraser") {
+        //Clear the Pixel
+        ctx.clearRect(mousePos.x, mousePos.y, pixelSize.width, pixelSize.height, selectedColor);
+    }
+    //Draw on canvas
+    else {
+        //Apply the color
+        ctx.fillStyle = selectedColor;
+
+        //draw rectangle
+        ctx.fillRect(mousePos.x, mousePos.y, pixelSize.width, pixelSize.height, selectedColor);
+        //Store the pixel in the PixelArray
+        storePixelInArray(mousePos, selectedColor);
+    }
+}
+
+// Add a mousemove event listener to the canvas to get the mouse position
+canvas.addEventListener('mousemove', function (event) {
+
+    // Get the mouse position relative to the canvas
+    mousePos = getMousePos(canvas, event);
+    mousePos = mouseToGrid(mousePos);
+});
+
+//Function to get the mouseposition relative to the canvas 
+//Function from Stackoverflow https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect(); // abs. size of element
+    scaleX = canvas.width / rect.width;    // relationship bitmap vs. element for x
+    scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
+
+    return {
+        x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
+        y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
+    }
+}
+
+//convert mouse Position to a grid point
+function mouseToGrid(mousePos) {
+    var gridSize = getPixelSize();
+    //Converts the position to the top left corner of the grid
+    var gridposX = Math.floor(mousePos.x / gridSize.width) * gridSize.width;
+    var gridposY = Math.floor(mousePos.y / gridSize.height) * gridSize.height;
+    return {
+        x: gridposX,
+        y: gridposY,
+    }
+}
+//Scale the pixel relative to the canvas size
+function getPixelSize() {
+    var rect = canvas.getBoundingClientRect();
+
+    scaleX = canvas.width / rect.width;
+    scaleY = canvas.height / rect.height;
+    return {
+        width: Math.round(rect.width / 16 * scaleX),
+        height: Math.round(rect.height / 16 * scaleY)
+    }
+}
+
+/**************************************************** */
+//Store the drawn values in a 2d Array 
+//Generated with ChatGPT 3.5
+var pixelArray = Array.from({ length: 16 }, () => Array(16).fill("empty"));
+
+//Converts mouse position in canvas to pixel position in image
+function pixelPositionToArrayPosition(position) {
+    var gridSize = getPixelSize();
+    return {
+        x: Math.floor(position.x / gridSize.width),
+        y: Math.floor(position.y / gridSize.height),
+    }
+}
+
+function storePixelInArray(position, color) {
+    var arrayPos = pixelPositionToArrayPosition(position);
+    pixelArray[arrayPos.x][arrayPos.y] = color;
+}
 
 
 var selectedColor = "";
