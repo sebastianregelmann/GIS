@@ -17,8 +17,8 @@
                     <input type="button" class="eraser" id="eraser"
                         onclick="colorSelected('eraser')">
                     <div class="control-container">
-                        <input type="button" class="control-button" value="<">
-                        <input type="button" class="control-button" value=">">
+                        <input type="button" class="control-button" value="<" onclick="goBack()">
+                        <input type="button" class="control-button" value=">" onclick="goForward()">
                     </div>
                 </div>
                 <div class="color-row">
@@ -71,7 +71,7 @@
                 </div>
             </div>
             <div class="column center" id="center">
-                <canvas class="canvas" id="canvas" onclick="clickCanvas()">
+                <canvas class="canvas" id="canvas">
                 </canvas>
             </div>
             <div class="column corner" id="right">
