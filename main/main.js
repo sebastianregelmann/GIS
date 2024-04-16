@@ -64,12 +64,58 @@ function colorSelected(colorId) {
         //add the unselcted class
         colorElement.classList.add("color-selected");
 
+        //
+        var borderColor = hexToHSL(rgbToHex(colorElement.style.backgroundColor));
+        borderColor.l = borderColor.l * 2;
+        borderColor = hslToHex(borderColor.h, borderColor.s, borderColor.l);
+        colorElement.style.borderColor = borderColor;
+
         //change the selected color variable
         selectedColor = rgbToHex(colorElement.style.backgroundColor);
     }
 }
 
-//Converts a rbg string into a hex string
+//Source https://gist.github.com/xenozauros/f6e185c8de2a04cdfecf
+function hexToHSL(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    r = parseInt(result[1], 16);
+    g = parseInt(result[2], 16);
+    b = parseInt(result[3], 16);
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if (max == min) {
+        h = s = 0; // achromatic
+    } else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+    var HSL = new Object();
+    HSL['h'] = h;
+    HSL['s'] = s;
+    HSL['l'] = l;
+    return HSL;
+}
+
+//https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex
+function hslToHex(h, s, l) {
+    l /= 100;
+    const a = s * Math.min(l, 1 - l) / 100;
+    const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+}
+
+//Converts a rbg string into a hex string Generated with ChatGPT 3.5
 function rgbToHex(col) {
     if (col.charAt(0) == 'r') {
         col = col.replace('rgb(', '').replace(')', '').split(',');
@@ -138,6 +184,14 @@ var singlePixelPlaced = false;
 var singlePixelColor;
 var singlePixelPosition;
 
+//Variable that stores wich color is drawing at the moment
+var selectedColor = "";
+
+//Variable to go thorugh the worksteps
+var workstepCounter = 0;
+//Boolean to check if its the newest workstep
+var inOldWorkstep = false;
+
 // Draw Pixel when canvas is clicked
 canvas.addEventListener('mousedown', function (event) {
 
@@ -154,12 +208,16 @@ canvas.addEventListener('mousedown', function (event) {
 
         //Store the pixel information to check if its a line or only a single pixel
         singlePixelPlaced = true;
-        singlePixelColor = selectedColor;
         singlePixelPosition = mousePos;
+        //Store the colorValue
+        if (selectedColor == "eraser") {
+            singlePixelColor = "empty";
+        }
+        else {
+            singlePixelColor = selectedColor;
+        }
     }
 });
-
-
 
 // Add a mousemove event listener to the canvas to get the mouse position
 canvas.addEventListener('mousemove', function (event) {
@@ -177,7 +235,7 @@ canvas.addEventListener('mousemove', function (event) {
 
         //Still store the single pixel in the line because else it sometimes is not stored correctly
         var arrayPos = pixelPositionToArrayPosition(singlePixelPosition, pixelSize);
-        linePixels[arrayPos.x][arrayPos.y] = singlePixelColor;
+        linePixels[arrayPos.x][arrayPos.y] = selectedColor;
 
         //Check if mouse moved to a pixel that is not in the current line
         if (isPixelInPlace(linePixels, mousePos, selectedColor, pixelSize) == false) {
@@ -189,8 +247,23 @@ canvas.addEventListener('mousemove', function (event) {
     }
 });
 
+//If mouse is no longer pressed save the changes to the canvas as a workstep
 canvas.addEventListener('mouseup', function (event) {
+    storeChanges();
+});
 
+//If mouse is no longer on the canvas save the changes to the canvas as a workstep
+canvas.addEventListener("mouseleave", function (event) {
+    if (event.buttons === 1) {
+        storeChanges();
+    }
+});
+
+
+
+/*************************************************************************
+ * *********Function to store the Worksteps ******************************/
+function storeChanges() {
     var pixelSize = getPixelSize();
 
     //Check if mouse was moving
@@ -202,7 +275,7 @@ canvas.addEventListener('mouseup', function (event) {
         }
         //if not cut out all the old worksteps and put this one at the end
         else {
-            //Remoce the new Worksteps that get overwritten
+            //Removee the new Worksteps that get overwritten
             worksteps.splice(workstepCounter + 1)
             //store the new pixel as new Workstep
             storeLinePixel(pixelSize);
@@ -224,40 +297,52 @@ canvas.addEventListener('mouseup', function (event) {
             storeSinglePixel(pixelSize);
         }
     }
+}
 
-    //Increase worksteppcounter by one
-    workstepCounter++;
-});
-
-/****************************
- * Function to store the Worksteps */
 
 function storeSinglePixel(pixelSize) {
     //Get the arrayPostion of the Single pixel
     var arrayPos = pixelPositionToArrayPosition(singlePixelPosition, pixelSize);
-    //Store the pixel in the PixelArray
-    pixelArray[arrayPos.x][arrayPos.y] = singlePixelColor
-    //Creates a deep Copy of Pixelarray *Generated with ChatGPT 3.5
-    worksteps.push(pixelArray.map(row => row.slice()));
+    //Check if single position musst be stored or if empty was erased
+    if (singlePixelColor != "eraser" || isColorErased(arrayPos.x, arrayPos.y)) {
+        //Store the pixel in the PixelArray
+        pixelArray[arrayPos.x][arrayPos.y] = singlePixelColor
+        //Creates a deep Copy of Pixelarray *Generated with ChatGPT 3.5
+        worksteps.push(pixelArray.map(row => row.slice()));
+        //Increase worksteppcounter by one
+        workstepCounter++;
+    }
     //Uncheck the boolean 
     singlePixelPlaced = false;
 }
 
 function storeLinePixel(pixelSize) {
-    //Store the linePixels in the pixelarray and push it to the worksteps
-    for (var x = 0; x < 16; x++) {
-        for (var y = 0; y < 16; y++) {
-            if (linePixels[x][y] != "empty") {
-                pixelArray[x][y] = linePixels[x][y];
+    if (musstLineBeStored()) {
+        //Store the linePixels in the pixelarray and push it to the worksteps
+        for (var x = 0; x < 16; x++) {
+            for (var y = 0; y < 16; y++) {
+                if (linePixels[x][y] != "empty") {
+
+                    //Store the erased spaces empty
+                    if (linePixels[x][y] == "eraser") {
+                        pixelArray[x][y] = "empty";
+                    }
+                    else {
+                        //Store the color
+                        pixelArray[x][y] = linePixels[x][y];
+                    }
+                }
             }
         }
+        //push the new workstep
+        //Creates a deep Copy of Pixelarray *Generated with ChatGPT 3.5
+        worksteps.push(pixelArray.map(row => row.slice()));
+        //Increase worksteppcounter by one
+        workstepCounter++;
     }
-
     //Clear the line pixels
     linePixels = Array.from({ length: 16 }, () => Array(16).fill("empty"));
-    //push the new workstep
-    //Creates a deep Copy of Pixelarray *Generated with ChatGPT 3.5
-    worksteps.push(pixelArray.map(row => row.slice()));
+
 
     isDrawingLine = false;
 }
@@ -265,7 +350,8 @@ function storeLinePixel(pixelSize) {
 
 
 /**********************************************************
- * Functions to check if a pixel is already in the place */
+ * Functions to check if a pixel is already in the place and if there was any color that was erased*/
+
 
 function isPixelInPlace(pixelArrayToCheck, position, color, gridSize) {
     //Get the postion of the pixel that the mouse is over to the position in the line Array
@@ -275,13 +361,43 @@ function isPixelInPlace(pixelArrayToCheck, position, color, gridSize) {
         console.log("Pixel in place");
         return true;
     }
+
     return false;
 }
 
-//Function to draw the pixel
+//Check if there was color that was erased
+function isColorErased(x, y) {
+    if (pixelArray[x][y] == "empty") {
+        return false;
+    }
+    return true;
+}
+
+//function to check if a line musst be saved as workstep
+//if only blank spaces get erased it's no real workstep
+function musstLineBeStored() {
+    //Check if the line is erasing any color if eraser was selected
+    for (var x = 0; x < 16; x++) {
+        for (var y = 0; y < 16; y++) {
+            if (linePixels[x][y] == "eraser") {
+                if (isColorErased(x, y)) {
+                    return true;
+                }
+            }
+            if (linePixels[x][y] != "eraser" && linePixels[x][y] != "empty") {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+/*******************************************************************************
+//Function to draw the pixel*/
 function drawPixel(position, pixelSize, color) {
     //Erase from canvas if eraser is selected
-    if (color == "eraser") {
+    if (color == "eraser" || color == "empty") {
         //Clear the Pixel
         ctx.clearRect(position.x, position.y, pixelSize.width, pixelSize.height);
     }
@@ -294,6 +410,7 @@ function drawPixel(position, pixelSize, color) {
         ctx.fillRect(position.x, position.y, pixelSize.width, pixelSize.height, color);
     }
 }
+
 
 //Function to get the mouseposition relative to the canvas 
 //Function from Stackoverflow https://stackoverflow.com/questions/17130395/real-mouse-position-in-canvas
@@ -342,11 +459,13 @@ function pixelPositionToArrayPosition(position, gridSize) {
     }
 }
 
-function storePixelInArray(position, color, gridSize) {
-    var arrayPos = pixelPositionToArrayPosition(position, gridSize);
-    pixelArray[arrayPos.x][arrayPos.y] = color;
+//convert pixelArrayPosition to Canvas Position
+function arrayPosToPixelPosition(x, y, pixelSize) {
+    return {
+        x: x * pixelSize.width,
+        y: y * pixelSize.height,
+    }
 }
-
 
 /*********************************************************/
 //function to draw the canvas from the stored values in the PixelArray
@@ -365,23 +484,8 @@ function drawFromPixelArray(pixels) {
     }
 }
 
-//convert pixelArrayPosition to Canvas Position
-function arrayPosToPixelPosition(x, y, pixelSize) {
-    return {
-        x: x * pixelSize.width,
-        y: y * pixelSize.height,
-    }
-}
-
-var selectedColor = "";
-
 /*********************************************** 
  * Functions to go throught the worksteps*/
-//Variable to go thorugh the worksteps
-var workstepCounter = 0;
-//Boolean to check if its the newest workstep
-var inOldWorkstep = false;
-
 // Funktion, die beim Drücken der Leertaste aufgerufen wird
 function handleKeyPress(event) {
     if (event.keyCode === 32) { // Überprüfe, ob die gedrückte Taste die Leertaste ist (KeyCode 32)

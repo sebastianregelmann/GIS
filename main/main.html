@@ -17,8 +17,10 @@
                     <input type="button" class="eraser" id="eraser"
                         onclick="colorSelected('eraser')">
                     <div class="control-container">
-                        <input type="button" class="control-button" value="<" onclick="goBack()">
-                        <input type="button" class="control-button" value=">" onclick="goForward()">
+                        <input type="button" class="control-button" value="<"
+                            onclick="goBack()">
+                        <input type="button" class="control-button" value=">"
+                            onclick="goForward()">
                     </div>
                 </div>
                 <div class="color-row">
@@ -76,11 +78,13 @@
             </div>
             <div class="column corner" id="right">
                 <div class="menu-wrapper">
-                    <button class="menu-button">Load</button>
-                    <button class="menu-button">Save</button>
-                    <button class="menu-button">Export</button>
-                    <button class="menu-button">Create</button>
+                    <a class="menu-button">Load</a>
+                    <a class="menu-button">Save</a>
+                    <a class="menu-button">Export</a>
+
                 </div>
+                <div class="menu-wrapper">
+                    <a class="menu-button">Create</a></div>
             </div>
         </div>
     </body>

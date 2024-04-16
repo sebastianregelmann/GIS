@@ -1,0 +1,3 @@
+background: #D4F1F4
+Highlights: #75E6DA, #189AB4
+Text: #05445E
