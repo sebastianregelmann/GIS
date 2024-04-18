@@ -64,55 +64,39 @@ function colorSelected(colorId) {
         //add the unselcted class
         colorElement.classList.add("color-selected");
 
-        //
-        var borderColor = hexToHSL(rgbToHex(colorElement.style.backgroundColor));
-        borderColor.l = borderColor.l * 2;
-        borderColor = hslToHex(borderColor.h, borderColor.s, borderColor.l);
-        colorElement.style.borderColor = borderColor;
-
         //change the selected color variable
         selectedColor = rgbToHex(colorElement.style.backgroundColor);
+
+        //Change the highlight color 
+        var shadowColor = darkenHexColor(selectedColor, 0.65);
+            colorElement.style.setProperty('--shadow-color', shadowColor.toString());
     }
 }
 
-//Source https://gist.github.com/xenozauros/f6e185c8de2a04cdfecf
-function hexToHSL(hex) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    r = parseInt(result[1], 16);
-    g = parseInt(result[2], 16);
-    b = parseInt(result[3], 16);
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
-    if (max == min) {
-        h = s = 0; // achromatic
-    } else {
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-    var HSL = new Object();
-    HSL['h'] = h;
-    HSL['s'] = s;
-    HSL['l'] = l;
-    return HSL;
-}
+//Function Generated with ChatGPT 3.5 
+//makes a darker version of an hex color
+function darkenHexColor(hex, factor) {
+    // Remove '#' if it exists
+    hex = hex.replace('#', '');
 
-//https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex
-function hslToHex(h, s, l) {
-    l /= 100;
-    const a = s * Math.min(l, 1 - l) / 100;
-    const f = n => {
-        const k = (n + h / 30) % 12;
-        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-        return Math.round(255 * color).toString(16).padStart(2, '0');   // convert to Hex and prefix "0" if needed
-    };
-    return `#${f(0)}${f(8)}${f(4)}`;
+    // Convert hex to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    // Darken each component
+    const darkenedR = Math.floor(r * factor);
+    const darkenedG = Math.floor(g * factor);
+    const darkenedB = Math.floor(b * factor);
+
+    // Convert darkened RGB back to hex
+    const darkenedHex = [
+        darkenedR.toString(16).padStart(2, '0'),
+        darkenedG.toString(16).padStart(2, '0'),
+        darkenedB.toString(16).padStart(2, '0')
+    ].join('');
+
+    return `#${darkenedHex}`;
 }
 
 //Converts a rbg string into a hex string Generated with ChatGPT 3.5

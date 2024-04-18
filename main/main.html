@@ -14,62 +14,56 @@
         <div class="container">
             <div class="column corner" id="left">
                 <div class="control-row">
-                    <input type="button" class="eraser" id="eraser"
-                        onclick="colorSelected('eraser')">
+                    <div class="eraser-wrapper">
+                        <input type="button" class="eraser" id="eraser"
+                            onclick="colorSelected('eraser')">
+                    </div>
                     <div class="control-container">
-                        <input type="button" class="control-button" value="<"
+                        <input type="button" class="control-button backward"
+                            value="<"
                             onclick="goBack()">
-                        <input type="button" class="control-button" value=">"
+                        <input type="button" class="control-button forward"
+                            value=">"
                             onclick="goForward()">
                     </div>
                 </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_1"
-                        onclick="colorSelected(color_1)"></button>
-                    <button class="color-unselcted" id="color_9"
-                        onclick="colorSelected(color_9)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_2"
-                        onclick="colorSelected(color_2)"></button>
-                    <button class="color-unselcted" id="color_10"
-                        onclick="colorSelected(color_10)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_3"
-                        onclick="colorSelected(color_3)"></button>
-                    <button class="color-unselcted" id="color_11"
-                        onclick="colorSelected(color_11)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_4"
-                        onclick="colorSelected(color_4)"></button>
-                    <button class="color-unselcted" id="color_12"
-                        onclick="colorSelected(color_12)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_5"
-                        onclick="colorSelected(color_5)"></button>
-                    <button class="color-unselcted" id="color_13"
-                        onclick="colorSelected(color_13)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_6"
-                        onclick="colorSelected(color_6)"></button>
-                    <button class="color-unselcted" id="color_14"
-                        onclick="colorSelected(color_14)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_7"
-                        onclick="colorSelected(color_7)"></button>
-                    <button class="color-unselcted" id="color_15"
-                        onclick="colorSelected(color_15)"></button>
-                </div>
-                <div class="color-row">
-                    <button class="color-unselcted" id="color_8"
-                        onclick="colorSelected(color_8)"></button>
-                    <button class="color-unselcted" id="color_16"
-                        onclick="colorSelected(color_16)"></button>
+                <div class="color-wrapper">
+                    <div class="color-column">
+                        <button class="color-unselcted left" id="color_1"
+                            onclick="colorSelected(color_1)"></button>
+                        <button class="color-unselcted left" id="color_2"
+                            onclick="colorSelected(color_2)"></button>
+                        <button class="color-unselcted left" id="color_3"
+                            onclick="colorSelected(color_3)"></button>
+                        <button class="color-unselcted left" id="color_4"
+                            onclick="colorSelected(color_4)"></button>
+                        <button class="color-unselcted left" id="color_5"
+                            onclick="colorSelected(color_5)"></button>
+                        <button class="color-unselcted left" id="color_6"
+                            onclick="colorSelected(color_6)"></button>
+                        <button class="color-unselcted left" id="color_7"
+                            onclick="colorSelected(color_7)"></button>
+                        <button class="color-unselcted left" id="color_8"
+                            onclick="colorSelected(color_8)"></button>
+                    </div>
+                    <div class="color-column">
+                        <button class="color-unselcted right" id="color_9"
+                            onclick="colorSelected(color_9)"></button>
+                        <button class="color-unselcted right" id="color_10"
+                            onclick="colorSelected(color_10)"></button>
+                        <button class="color-unselcted right" id="color_11"
+                            onclick="colorSelected(color_11)"></button>
+                        <button class="color-unselcted right" id="color_12"
+                            onclick="colorSelected(color_12)"></button>
+                        <button class="color-unselcted right" id="color_13"
+                            onclick="colorSelected(color_13)"></button>
+                        <button class="color-unselcted right" id="color_14"
+                            onclick="colorSelected(color_14)"></button>
+                        <button class="color-unselcted right" id="color_15"
+                            onclick="colorSelected(color_15)"></button>
+                        <button class="color-unselcted right" id="color_16"
+                            onclick="colorSelected(color_16)"></button>
+                    </div>
                 </div>
             </div>
             <div class="column center" id="center">
@@ -78,13 +72,11 @@
             </div>
             <div class="column corner" id="right">
                 <div class="menu-wrapper">
-                    <a class="menu-button">Load</a>
-                    <a class="menu-button">Save</a>
-                    <a class="menu-button">Export</a>
-
+                    <button class="menu-button">Load</button>
+                    <button class="menu-button">Save</button>
+                    <button class="menu-button">Export</button>
+                    <button class="menu-button">Create</button>
                 </div>
-                <div class="menu-wrapper">
-                    <a class="menu-button">Create</a></div>
             </div>
         </div>
     </body>

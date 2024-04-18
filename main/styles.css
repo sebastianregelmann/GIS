@@ -1,6 +1,11 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #D4F1F4;
 }
+
+/*********************************************************/
+/* Layout General*/
+/*********************************************************/
 
 .container {
     padding: 10px;
@@ -30,9 +35,28 @@ body {
     display: flex;
 }
 
+/*********************************************************/
+/* Color Layout*/
+/*********************************************************/
+
+.color-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 90%;
+}
+
+.color-column {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .color-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     height: 100%;
     /* allow the row to grow and fill the available space */
@@ -40,31 +64,216 @@ body {
     /* space between rows, adjust as needed */
 }
 
-.color-unselcted {
-    /* allow the button to grow and fill the available space */
+.left {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+}
+
+.right {
+    display: block;
     margin-left: 4%;
+    margin-right: auto;
+}
+
+.color-unselcted {
     width: 48%;
-    /* adjust to ensure two buttons fit within the row */
-    height: 100%;
-    border: 1px solid #606060;
+    height: 20%;
     box-sizing: border-box;
+    margin-bottom: 30%;
+
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
 }
 
 .color-selected {
-    /* allow the button to grow and fill the available space */
-    margin-left: 4%;
-    width: 48%;
-    /* adjust to ensure two buttons fit within the row */
-    height: 100%;
-    border: 4px solid #b3b3b3;
+    --shadow-color: rgba(24, 154, 180, 1);
+    width: 96%;
+    height: 20%;
     box-sizing: border-box;
+    margin-bottom: 30%;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
+    box-shadow: inset 0 0 0px rgb(0, 0, 0), 0 0 9px 3px var(--shadow-color);
 }
 
+.color-unselcted:hover {
+    width: 96%;
+    height: 20%;
+    box-sizing: border-box;
+    margin-bottom: 30%;
+    border: 1px solid black;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+}
+
+/*********************************************************/
+/* Menu on the right site*/
+/*********************************************************/
 .menu-wrapper {
     width: 100%;
-    height: 30%;
+    height: 50%;
     display: flex;
     flex-direction: column;
+}
+
+.menu-button {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 15%;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    position: relative;
+    font-family: inherit;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 2px solid rgb(24, 154, 180);
+    background: rgba(117, 230, 218, 0.1);
+    color: rgb(5, 68, 94);
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgba(24, 154, 180, 0.1);
+}
+
+.menu-button:hover {
+    color: #189AB4;
+    border: 2px solid rgb(117, 230, 218);
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgba(24, 154, 180, 1);
+}
+
+
+/*********************************************************/
+/* Eraser*/
+/*********************************************************/
+
+.eraser-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.eraser {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+
+
+    width: 48%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30%;
+
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
+}
+
+.eraser:hover {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+
+
+    width: 96%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30%;
+
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
+}
+
+.eraser-selected {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+
+
+    width: 96%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30%;
+
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgb(124, 124, 124);
+}
+
+/*********************************************************/
+/* Control (Forward/Backward*/
+/*********************************************************/
+.control-container {
+    margin-left: 0%;
+    margin-right: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.control-button {
+    width: 40%;
+    height: 100%;
+    border-radius: 0.6em;
+    overflow: hidden;
+    transition: all 0.3s;
+    line-height: 1.4em;
+    border: 1px solid black;
+}
+
+.control-button:hover {
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgb(63, 63, 63);
+
+}
+
+.backward {
+    display: block;
+    margin-left: 4%;
+    margin-right: auto;
+}
+
+.forward {
+    display: block;
+    margin-left: auto;
+    margin-right: 4%;
+}
+
+
+
+
+.control-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 7%;
+    /* space between controls and colors*/
+    margin-bottom: 30%;
+}
+
+
+
+.logo {
+    width: 10%;
+    height: 10%;
+    margin-left: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .projectName {
@@ -78,97 +287,4 @@ body {
     height: 100%;
 }
 
-
-
-.eraser {
-    margin-left: 4%;
-    width: 48%;
-    height: 100%;
-    border: 1px solid #b3b3b3;
-    box-sizing: border-box;
-}
-
-.eraser-selected {
-    margin-left: 4%;
-    width: 48%;
-    height: 100%;
-    border: 4px solid #b3b3b3;
-    box-sizing: border-box;
-}
-
-.control-row {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    /* space between controls and colors*/
-    margin-bottom: 20%;
-}
-
-.control-container {
-    margin-left: 4%;
-    width: 48%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.control-button {
-    width: 48%;
-    height: 100%;
-    border: 1px solid #b3b3b3;
-}
-
-.menu-button:link,
-.menu-button:visited {
- text-transform: uppercase;
- text-decoration: none;
- color: rgb(27, 27, 27);
- padding: 10px 30px;
- border: 1px solid;
- border-radius: 1000px;
- display: inline-block;
- transition: all .2s;
- position: relative;
-}
-
-.menu-button:hover {
- transform: translateY(-5px);
- box-shadow: 0 10px 20px rgba(27, 27, 27, .5);
-}
-
-.menu-button:active {
- transform: translateY(-3px);
-}
-
-.menu-button::after {
- content: "";
- display: inline-block;
- height: 100%;
- width: 100%;
- border-radius: 100px;
- top: 0;
- left: 0;
- position: absolute;
- z-index: -1;
- transition: all .3s;
-}
-
-.menu-button:hover::after {
- background-color: rgb(0, 238, 255);
- transform: scaleX(1.4) scaleY(1.5);
- opacity: 0;
-}
-
-
-.logo {
-    width: 10%;
-    height: 10%;
-    margin-left: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-
-}
+@media (max-width: 768px) {}
