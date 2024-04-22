@@ -3,18 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Main</title>
+        <title>Create Projekt</title>
         <link rel="stylesheet" href="create-styles.css">
         <script src="create.js" defer></script>
     </head>
-    <img src="https://gamebanana.com/wips/embeddables/74129?variant=sd_image"
-        class="logo" />
     <body>
+        <div class="name-wrapper">
+            <input type="text" placeholder="Give the projekt a name:"
+                id="NameInput">
+        </div>
         <div class="container">
-            <div class="name-wrapper">
-                <input type="text" placeholder="Give the projekt a name:"
-                    id="NameInput">
-            </div>
             <div class="color-wrapper">
                 <div class=" color-row">
                     <input type="color" id="color_1"
@@ -59,7 +57,7 @@
             </div>
             <div class="button-wrapper">
                 <button onclick="createSite()">load</button>
-               <button onclick="createSite()">create</button>
+                <button onclick="createSite()">create</button>
             </div>
         </div>
     </body>
