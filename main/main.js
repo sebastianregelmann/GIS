@@ -583,6 +583,8 @@ function goForward() {
  **********Saving and loading project from local storage******************
  *************************************************************************/
 var projectNameToWorkWith
+
+//Function is called when the site is loaded S
 function loadProjectOnSiteLoad() {
     projectNameToWorkWith = localStorage.getItem("FileNameToWorkWith");
     var projectWrapper = loadProjectFromLocalStorage(projectNameToWorkWith);
@@ -594,7 +596,7 @@ function loadProjectOnSiteLoad() {
     }
     else {
         worksteps = projectWrapper.worksteps;
-        pixelArray = worksteps[worksteps.length -1];
+        pixelArray = worksteps[worksteps.length - 1];
         workstepCounter = worksteps.length - 1;
     }
 
@@ -615,13 +617,15 @@ function loadProjectOnSiteLoad() {
     drawFromPixelArray(pixelArray);
 }
 
+
+//Called when clicled on a file in the file list
 function loadProjectFromFileList(id) {
     projectNameToWorkWith = id;
     localStorage.setItem("FileNameToWorkWith", projectNameToWorkWith);
     loadProjectOnSiteLoad();
 }
 
-
+//Function to save a project too the local storage
 function saveProjectToLocalStorage() {
     var name = projectNameToWorkWith;
     var objectToSave = new ProjectWrapper(name, getColorPalleteAsArray(), worksteps);
@@ -635,12 +639,8 @@ function saveProjectToLocalStorage() {
     localStorage.setItem("FileNameToWorkWith", name);
 }
 
-function makeFileListVisible() {
-    var div = document.getElementById("fileList");
-    // Toggle the CSS class to show/hide the div
-    div.classList.toggle("inVisible");
-}
 
+//Function to load a project from the local storage
 function loadProjectFromLocalStorage(name) {
     // Retrieving the JSON string from local storage
     const jsonString = localStorage.getItem(name);
@@ -651,6 +651,19 @@ function loadProjectFromLocalStorage(name) {
     return new ProjectWrapper(object.name, object.colors, object.worksteps)
 }
 
+
+////////////////////////////////////////////////////////////////
+///////Functions for the File list /////////////////////////////
+////////////////////////////////////////////////////////////////
+
+function makeFileListVisible() {
+    var div = document.getElementById("fileList");
+    // Toggle the CSS class to show/hide the div
+    div.classList.toggle("inVisible");
+}
+
+////////////////////////////////////////////////////////////////////
+//Fill the file list with the nmaes of the file in local storage
 function fillFileNames() {
     // Get all keys stored in the local storage
     var keys = Object.keys(localStorage);
@@ -667,6 +680,11 @@ function fillFileNames() {
         }
 
     });
+
+    //Clear the file list
+    while (document.getElementById("fileList").firstChild) {
+        document.getElementById("fileList").removeChild(document.getElementById("fileList").firstChild);
+    }
 
     for (var i = 0; i < projects.length; i++) {
         // Create a new div element
@@ -687,7 +705,12 @@ function fillFileNames() {
     }
 }
 
-
+/////////////////////////////////////////////////////////////////////////////////////
+//Function to change site to create site
+function changeToCreate() {
+    //Change the site
+    window.location.href = '../create/create.html';
+}
 
 
 class ProjectWrapper {

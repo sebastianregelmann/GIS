@@ -70,27 +70,9 @@ function createSite() {
     // Save the name on to load the working project
     localStorage.setItem("FileNameToWorkWith", name);
 
-    //Store th color in local storage
-    //saveColorsToLocalStorage();
-    // saveNameToLocalStorage();
-
     //Change the site
     window.location.href = '../main/main.html';
 }
-
-//function saveColorsToLocalStorage() {
-//    //loop over all ids 
-//    for (let colorId in colorPalette) {
-//        localStorage.setItem(colorId.toString(), colorPalette[colorId]);
-//    }
-//}
-//
-//function saveNameToLocalStorage() {
-//    var nameInput = document.getElementById("NameInput");
-//    var name = nameInput.value;
-//    localStorage.setItem("name", nameInput.value);
-//}
-
 
 class ProjectWrapper {
     constructor(name, colors, worksteps) {
