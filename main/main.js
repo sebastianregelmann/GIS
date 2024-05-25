@@ -1,19 +1,74 @@
 //When site is loaded
 document.addEventListener('DOMContentLoaded', function () {
-    // set the colors
-    setColorPalette();
+
+    //Load the project
+    loadProjectOnSiteLoad();
 });
+
+
 
 window.addEventListener("resize", resizedWindow());
 
-//Sets the color palette colors 
-function setColorPalette() {
+//Sets the color palette colors in to the buttons 
+function setColorPalette(colorPalette) {
     for (let i = 1; i < 17; i++) {
         var colorId = "color_" + i.toString();
         var colorButton = document.getElementById(colorId);
-        let color = localStorage.getItem(colorId);
+        let color = colorPalette[colorId];
         colorButton.style.backgroundColor = color;
     }
+}
+
+//Sets the selected color to the first color
+function setColorOnLoad() {
+    //select the color   
+    var colorId = "color_1";
+    //get the selected button
+    var colorElement = document.getElementById(colorId);
+    //remove the class from the list
+    colorElement.classList.remove("color-unselcted");
+    //add the unselcted class
+    colorElement.classList.add("color-selected");
+
+    //change the selected color variable
+    selectedColor = rgbToHex(colorElement.style.backgroundColor);
+
+    var shadowColor = darkenHexColor(selectedColor, 0.65);
+    colorElement.style.setProperty('--shadow-color', shadowColor.toString());
+
+}
+
+//Converts the colors of the buttons to an array
+function getColorPalleteAsArray() {
+    var colorArray = {
+        //First row
+        color_1: "#000000",      // black
+        color_2: "#848484",      //dark grey
+        color_3: "#A8A8A8",      //light grey
+        color_4: "#FFFFFF",      // white
+        //second row
+        color_5: "#FF0000",
+        color_6: "#FF8000",
+        color_7: "#FFFF00",
+        color_8: "#80FF00",
+        //third row
+        color_9: "#00FF00",
+        color_10: "#00FF80",
+        color_11: "#00FFFF",
+        color_12: "#0080FF",
+        //forth row
+        color_13: "#0000FF",
+        color_14: "#8000FF",
+        color_15: "#FF00FF",
+        color_16: "#FF0080",
+    };
+    //Loop over all colorButtons and get the color
+    for (let i = 1; i < 17; i++) {
+        var colorId = "color_" + i.toString();
+        var colorButton = document.getElementById(colorId);
+        colorArray[colorId] = rgbToHex(colorButton.style.backgroundColor);
+    }
+    return colorArray;
 }
 
 
@@ -69,7 +124,7 @@ function colorSelected(colorId) {
 
         //Change the highlight color 
         var shadowColor = darkenHexColor(selectedColor, 0.65);
-            colorElement.style.setProperty('--shadow-color', shadowColor.toString());
+        colorElement.style.setProperty('--shadow-color', shadowColor.toString());
     }
 }
 
@@ -113,27 +168,42 @@ function rgbToHex(col) {
 }
 
 function resizedWindow() {
+    var container = document.getElementById("mainContainer");
+
+    var sizeInfo = container.getBoundingClientRect();
+    var xSize = sizeInfo.height;
+    var ySize = sizeInfo.width;
+
+    //Scale the center to be 80 Percent of the main container
+    xSize = 0.7 * xSize;
+
+    console.log("X Size: " + xSize + "   Y Size: " + ySize);
     var size;
-    //get how big the center column can be
-    if (isHeightSmaller()) {
-        size = window.innerHeight;
+
+    if (ySize < window.innerHeight - 100) {
+        if (xSize < ySize) {
+            size = xSize;
+        }
+        else {
+            size = ySize;
+        }
     }
     else {
-        size = window.innerWidth;
+        size = window.innerHeight - 100
     }
 
-    //Scale the inner column
+    size = scaleTo16(size);
+
+    console.log("Scaled Size: " + size);
+
+    //Scale the inner column/Canvas
     var center = document.getElementById("center");
-    center.style.width = (size * 0.8).toString() + "px";
-    center.style.height = (size * 0.8).toString() + "px";
+    center.style.width = size;
+    center.style.height = size;
+}
 
-    var cornerLeft = document.getElementById("left");
-    cornerLeft.style.width = (size * 0.2).toString() + "px";
-    cornerLeft.style.height = (size * 0.8).toString() + "px";
-
-    var cornerRight = document.getElementById("right");
-    cornerRight.style.width = (size * 0.2).toString() + "px";
-    cornerRight.style.height = (size * 0.8).toString() + "px";
+function scaleTo16(size) {
+    return Math.round(size / 16) * 16
 }
 
 
@@ -144,6 +214,7 @@ function isHeightSmaller() {
     }
     return false;
 }
+
 /*************************************************************************
  **********Drawing in canvas functions************************************
  *************************************************************************/
@@ -507,5 +578,123 @@ function goForward() {
     }
 }
 
-// Event-Listener hinzufügen, um auf Tastendrücke zu reagieren
-document.addEventListener('keydown', handleKeyPress);
+
+/*************************************************************************
+ **********Saving and loading project from local storage******************
+ *************************************************************************/
+var projectNameToWorkWith
+function loadProjectOnSiteLoad() {
+    projectNameToWorkWith = localStorage.getItem("FileNameToWorkWith");
+    var projectWrapper = loadProjectFromLocalStorage(projectNameToWorkWith);
+    if (projectWrapper.worksteps == null) {
+
+        //Create a empty workstep and pixel array
+        pixelArray = Array.from({ length: 16 }, () => Array(16).fill("empty"));
+        worksteps = [pixelArray.map(row => row.slice())];
+    }
+    else {
+        worksteps = projectWrapper.worksteps;
+        pixelArray = worksteps[worksteps.length -1];
+        workstepCounter = worksteps.length - 1;
+    }
+
+    // set the colors
+    setColorPalette(projectWrapper.colors);
+    //Set the first color
+    setColorOnLoad();
+    //Fill the file list
+    fillFileNames();
+
+
+    //Set project name
+    let nameField = document.getElementById("nameField");
+    let name = projectWrapper.name;
+    nameField.innerText = name;
+
+    //Show the pixels loaded
+    drawFromPixelArray(pixelArray);
+}
+
+function loadProjectFromFileList(id) {
+    projectNameToWorkWith = id;
+    localStorage.setItem("FileNameToWorkWith", projectNameToWorkWith);
+    loadProjectOnSiteLoad();
+}
+
+
+function saveProjectToLocalStorage() {
+    var name = projectNameToWorkWith;
+    var objectToSave = new ProjectWrapper(name, getColorPalleteAsArray(), worksteps);
+    //Create the json string
+    const jsonString = JSON.stringify(objectToSave);
+
+    // Save the JSON string to local storage
+    localStorage.setItem(name, jsonString);
+
+    // Save the name on to load the working project
+    localStorage.setItem("FileNameToWorkWith", name);
+}
+
+function makeFileListVisible() {
+    var div = document.getElementById("fileList");
+    // Toggle the CSS class to show/hide the div
+    div.classList.toggle("inVisible");
+}
+
+function loadProjectFromLocalStorage(name) {
+    // Retrieving the JSON string from local storage
+    const jsonString = localStorage.getItem(name);
+
+    // Parsing the JSON string back into an object
+    var object = JSON.parse(jsonString);
+
+    return new ProjectWrapper(object.name, object.colors, object.worksteps)
+}
+
+function fillFileNames() {
+    // Get all keys stored in the local storage
+    var keys = Object.keys(localStorage);
+
+    // Loop through the keys and retrieve the name of all the projects
+    var projects = [];
+    keys.forEach(function (key) {
+
+        if (key != "FileNameToWorkWith") {
+            //Get the name of the projcet
+            var name = JSON.parse(localStorage.getItem(key)).name;
+
+            projects.push(name);
+        }
+
+    });
+
+    for (var i = 0; i < projects.length; i++) {
+        // Create a new div element
+        var newDiv = document.createElement("div");
+
+        // Set the id
+        newDiv.id = projects[i];
+        //Set the 
+        newDiv.textContent = projects[i];
+        newDiv.classList.add("file");
+        // Event listener for the div
+        newDiv.addEventListener('click', function () {
+            // When the div is clicked, call loadProjectFromLocalStorage with the id
+            loadProjectFromFileList(this.id);
+        });
+        // Append the new div to the parent div
+        document.getElementById("fileList").appendChild(newDiv);
+    }
+}
+
+
+
+
+class ProjectWrapper {
+    constructor(name, colors, worksteps) {
+        this.name = name;
+        this.colors = colors;
+        this.worksteps = worksteps;
+    }
+
+}

@@ -1,11 +1,7 @@
-function meineFunktion() {
-    alert('Hallo, Welt!');
-}
-
 //pre defiend colors for the color palette 
 var colorPalette = {
     //First row
-    color_1: "#000000",            // black
+    color_1: "#000000",      // black
     color_2: "#848484",      //dark grey
     color_3: "#A8A8A8",      //light grey
     color_4: "#FFFFFF",      // white
@@ -51,26 +47,55 @@ function colorChange(colorId) {
 }
 
 function createSite() {
+    var nameInput = document.getElementById("NameInput");
+    var name = nameInput.value;
     //Check if projekt has a name
-    if (document.getElementById("NameInput").value == "") {
+    if (name == "") {
         alert("No Projekt Name");
         return;
     }
-    //Store th color in lokal storage
-    saveColorsToLocalStorage();
-    saveNameToLocalStorage();
+    if (localStorage.getItem(name) !== null) {
+        alert("File already exists");
+        return;
+    }
+
+    //save a new project to local storage
+    var objectToSave = new ProjectWrapper(name, colorPalette, null)
+
+    const jsonString = JSON.stringify(objectToSave);
+
+    // Save the JSON string to local storage
+    localStorage.setItem(name, jsonString);
+
+    // Save the name on to load the working project
+    localStorage.setItem("FileNameToWorkWith", name);
+
+    //Store th color in local storage
+    //saveColorsToLocalStorage();
+    // saveNameToLocalStorage();
+
+    //Change the site
     window.location.href = '../main/main.html';
 }
 
-function saveColorsToLocalStorage() {
-    //loop over all ids 
-    for (let colorId in colorPalette) {
-        localStorage.setItem(colorId.toString(), colorPalette[colorId]);
-    }
-}
+//function saveColorsToLocalStorage() {
+//    //loop over all ids 
+//    for (let colorId in colorPalette) {
+//        localStorage.setItem(colorId.toString(), colorPalette[colorId]);
+//    }
+//}
+//
+//function saveNameToLocalStorage() {
+//    var nameInput = document.getElementById("NameInput");
+//    var name = nameInput.value;
+//    localStorage.setItem("name", nameInput.value);
+//}
 
-function saveNameToLocalStorage() {
-    var nameInput = document.getElementById("NameInput");
-    var name = nameInput.value;
-    localStorage.setItem("name", nameInput.value);
+
+class ProjectWrapper {
+    constructor(name, colors, worksteps) {
+        this.name = name;
+        this.colors = colors;
+        this.worksteps = worksteps;
+    }
 }

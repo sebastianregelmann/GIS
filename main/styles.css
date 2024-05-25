@@ -22,7 +22,7 @@ body {
 /*Container for the content left and right from the canvas*/
 .corner {
     padding: 10px;
-    width: 15vw;
+    width: auto;
     /* 25% of the viewport width */
     height: min(80vh, 80vw);
     display: flex;
@@ -32,7 +32,9 @@ body {
 /*Container for main canvas*/
 .center {
     background-image: url(../Img/Background.png);
+    width: 70%;
     display: flex;
+    aspect-ratio: 1/1;
 }
 
 /*********************************************************/
@@ -317,6 +319,65 @@ body {
     font-size: 18px;
     letter-spacing: 0.06em;
 }
+
+/*********************************************************/
+/* File List for Projects
+/*********************************************************/
+.fileListWrapper {
+    /*background color */
+    background: linear-gradient(to right, rgba(5, 68, 94, 0.1) 1%, transparent 40%, transparent 60%, rgba(5, 68, 94, 0.1) 100%);
+
+    /*border and shape*/
+    border: 2px solid rgb(24, 154, 180);
+
+    border-radius: 0.6em;
+    width: 150%;
+    height: 50%;
+    overflow-y: auto;
+    position: relative;
+    /* Add scrollbar if content overflows */
+}
+
+/* Changes the file list to be visisble or not*/
+.inVisible {
+    display: none;
+}
+
+.file {
+    background-color: grey;
+    width: 90%;
+    max-width: 98%;
+    height: 15%;
+    margin: 5%;
+
+
+    overflow-x: auto;
+    /* Add horizontal scrollbar if content overflows */
+    overflow-y: hidden;
+    /* Prevent vertical scrollbar */
+
+    /*Text*/
+    color: rgb(5, 68, 94);
+    font-family: inherit;
+    align-content: center;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+
+    /*background color */
+    background: linear-gradient(to right, rgba(5, 68, 94, 0.1) 1%, transparent 40%, transparent 60%, rgba(5, 68, 94, 0.1) 100%);
+
+    /*border and shape*/
+    border: 2px solid rgb(24, 154, 180);
+    border-radius: 0.6em;
+}
+
+/*Hover effect vor the control button*/
+.file:hover {
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgb(63, 63, 63);
+}
+
 
 /*The main canvas*/
 .canvas {

@@ -9,9 +9,9 @@
     </head>
     <body onresize="resizedWindow()">
         <div class="name-container">
-            <div class="project-name">Name des Projekts</div>
+            <div class="project-name" id="nameField">Name des Projekts</div>
         </div>
-        <div class="container">
+        <div class="container" id="mainContainer">
             <div class="column corner" id="left">
                 <div class="control-row">
                     <div class="eraser-wrapper">
@@ -72,10 +72,13 @@
             </div>
             <div class="column corner" id="right">
                 <div class="menu-wrapper">
-                    <button class="menu-button">Load</button>
-                    <button class="menu-button">Save</button>
+                    <button class="menu-button" onclick="makeFileListVisible()">Load</button>
+                    <button class="menu-button"
+                        onclick="saveProjectToLocalStorage()">Save</button>
                     <button class="menu-button">Export</button>
                     <button class="menu-button">Create</button>
+                </div>
+                <div class="fileListWrapper" id="fileList">
                 </div>
             </div>
         </div>
