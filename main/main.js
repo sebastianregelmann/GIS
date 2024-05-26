@@ -1,8 +1,12 @@
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
 //When site is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
     //Load the project
     loadProjectOnSiteLoad();
+    resizedWindow();
 });
 
 
@@ -169,41 +173,37 @@ function rgbToHex(col) {
 
 function resizedWindow() {
     var container = document.getElementById("mainContainer");
-
-    var sizeInfo = container.getBoundingClientRect();
-    var xSize = sizeInfo.height;
-    var ySize = sizeInfo.width;
-
-    //Scale the center to be 80 Percent of the main container
-    xSize = 0.7 * xSize;
-
-    console.log("X Size: " + xSize + "   Y Size: " + ySize);
+    canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+    var maxSize = container.getBoundingClientRect();
     var size;
 
-    if (ySize < window.innerHeight - 100) {
-        if (xSize < ySize) {
-            size = xSize;
-        }
-        else {
-            size = ySize;
-        }
+    //Check if height would be visible
+    if (maxSize.width * 0.5 > maxSize.height) {
+        size = maxSize.height;
+        console.log("Wider than high USED Height as size Factor  SIZE: " + size);
     }
     else {
-        size = window.innerHeight - 100
+        size = maxSize.width * 0.5;
+        console.log("Higher than Wide USED Width as size Factor  SIZE: " + size);
+
     }
 
     size = scaleTo16(size);
-
-    console.log("Scaled Size: " + size);
-
-    //Scale the inner column/Canvas
+    console.log("Scaled Value: " + size);
     var center = document.getElementById("center");
-    center.style.width = size;
-    center.style.height = size;
+    center.style.setProperty('--canvasSize', size + 'px');
+
+   /* ctx.width = "100%";
+    ctx.height = "100%";
+    canvas.width = "100%";
+    canvas.height = "100%";
+*/
+
 }
 
 function scaleTo16(size) {
-    return Math.round(size / 16) * 16
+    return Math.floor(size / 16) * 16;
 }
 
 
@@ -220,8 +220,8 @@ function isHeightSmaller() {
  *************************************************************************/
 
 // Get the canvas element
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+//const canvas = document.getElementById('canvas');
+//const ctx = canvas.getContext('2d');
 
 //Store the drawn values in a 2d Array 
 //Generated with ChatGPT 3.5
@@ -272,6 +272,9 @@ canvas.addEventListener('mousedown', function (event) {
             singlePixelColor = selectedColor;
         }
     }
+
+    console.log("Pixel Width: " + getPixelSize().width + "   Pixel Height: " + getPixelSize().height);
+
 });
 
 // Add a mousemove event listener to the canvas to get the mouse position
@@ -493,11 +496,13 @@ function mouseToGrid(mousePos, gridSize) {
 //Scale the pixel relative to the canvas size
 function getPixelSize() {
     var rect = canvas.getBoundingClientRect();
+    console.log(rect);
 
+    console.log(canvas.width);
     scaleX = canvas.width / rect.width;
     scaleY = canvas.height / rect.height;
     return {
-        width: Math.round(rect.width / 16 * scaleX),
+        width: Math.round((rect.width / 16) * scaleX),
         height: Math.round(rect.height / 16 * scaleY)
     }
 }
