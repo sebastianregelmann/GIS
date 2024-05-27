@@ -182,7 +182,7 @@ body {
     /*size and positon */
     display: block;
     margin-left: auto;
-    margin-right: 4%;
+    margin-right: 0%;
     width: 48%;
     height: 100%;
     box-sizing: border-box;
@@ -207,7 +207,7 @@ body {
     /*size and positon */
     display: block;
     margin-left: auto;
-    margin-right: 4%;
+    margin-right: 0%;
     width: 96%;
     height: 100%;
     box-sizing: border-box;
@@ -231,7 +231,7 @@ body {
     /*size and positon */
     display: block;
     margin-left: auto;
-    margin-right: 4%;
+    margin-right: 0%;
     width: 96%;
     height: 100%;
     box-sizing: border-box;
