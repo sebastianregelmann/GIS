@@ -23,7 +23,7 @@ body {
 /*Container for the content left and right from the canvas*/
 .corner {
     padding: 0px;
-    width: auto;
+    width: 15%;
     /* 25% of the viewport width */
     height: min(80vh, 80vw);
     display: flex;
@@ -34,7 +34,7 @@ body {
 .center {
     background-image: url(../Img/Background.png);
     /*display: flex;*/
-    --canvasSize: 70%;
+    --canvasSize: 50%;
 
     width: var(--canvasSize);
     height: var(--canvasSize);
@@ -173,7 +173,7 @@ body {
 
 /*Wrapper for the eraser */
 .eraser-wrapper {
-    width: 100%;
+    width: 50%;
     height: 100%;
     display: flex;
 }
@@ -195,7 +195,12 @@ body {
     line-height: 1.4em;
     border: 1px solid black;
 
+    /*Icon*/
     background-image: url(../Img/Eraser.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+
 }
 
 .eraser:hover {
@@ -214,6 +219,12 @@ body {
     transition: all 0.3s;
     line-height: 1.4em;
     border: 1px solid black;
+
+    /*Icon*/
+    background-image: url(../Img/Eraser.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
 }
 
 .eraser-selected {
@@ -235,6 +246,13 @@ body {
     /*Shadow to show it's selected */
     border: 1px solid black;
     box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgb(124, 124, 124);
+
+    /*Icon*/
+    background-image: url(../Img/Eraser.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
+
 }
 
 /*********************************************************/
@@ -281,6 +299,12 @@ body {
     display: block;
     margin-left: 4%;
     margin-right: auto;
+
+    /*Icon*/
+    background-image: url(../Img/Backbutton.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
 }
 
 /*Positon for the forward button*/
@@ -288,6 +312,12 @@ body {
     display: block;
     margin-left: auto;
     margin-right: 4%;
+
+    /*Icon*/
+    background-image: url(../Img/Forwardbutton.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto;
 }
 
 
