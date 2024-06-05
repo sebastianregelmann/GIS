@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
     resizedWindow();
 });
 
+window.addEventListener('load', () => {
+    resizedWindow();
+});
+
 
 
 window.addEventListener("resize", resizedWindow());
@@ -46,25 +50,25 @@ function setColorOnLoad() {
 function getColorPalleteAsArray() {
     var colorArray = {
         //First row
-        color_1: "#000000",      // black
-        color_2: "#848484",      //dark grey
-        color_3: "#A8A8A8",      //light grey
-        color_4: "#FFFFFF",      // white
+        color_1: "",      // black
+        color_2: "",      //dark grey
+        color_3: "",      //light grey
+        color_4: "",      // white
         //second row
-        color_5: "#FF0000",
-        color_6: "#FF8000",
-        color_7: "#FFFF00",
-        color_8: "#80FF00",
+        color_5: "",
+        color_6: "",
+        color_7: "",
+        color_8: "",
         //third row
-        color_9: "#00FF00",
-        color_10: "#00FF80",
-        color_11: "#00FFFF",
-        color_12: "#0080FF",
+        color_9: "",
+        color_10: "",
+        color_11: "",
+        color_12: "",
         //forth row
-        color_13: "#0000FF",
-        color_14: "#8000FF",
-        color_15: "#FF00FF",
-        color_16: "#FF0080",
+        color_13: "",
+        color_14: "",
+        color_15: "",
+        color_16: "",
     };
     //Loop over all colorButtons and get the color
     for (let i = 1; i < 17; i++) {
@@ -194,11 +198,12 @@ function resizedWindow() {
     var center = document.getElementById("center");
     center.style.setProperty('--canvasSize', size + 'px');
 
-   /* ctx.width = "100%";
-    ctx.height = "100%";
-    canvas.width = "100%";
-    canvas.height = "100%";
-*/
+
+    /* ctx.width = "100%";
+     ctx.height = "100%";
+     canvas.width = "100%";
+     canvas.height = "100%";
+ */
 
 }
 
@@ -502,8 +507,11 @@ function getPixelSize() {
     scaleX = canvas.width / rect.width;
     scaleY = canvas.height / rect.height;
     return {
-        width: Math.round((rect.width / 16) * scaleX),
-        height: Math.round(rect.height / 16 * scaleY)
+        /*width: Math.round((rect.width / 16) * scaleX),
+        height: Math.round(rect.height / 16 * scaleY)*/
+        width: canvas.width / 16,
+
+        height: canvas.height / 16
     }
 }
 
@@ -717,6 +725,16 @@ function changeToCreate() {
     window.location.href = '../create/create.html';
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+//Download the canvas as png
+function downloadCanvas() {
+    const link = document.createElement('a');
+    var name = localStorage.getItem("FileNameToWorkWith") + ".png";
+    link.download = name;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
 
 class ProjectWrapper {
     constructor(name, colors, worksteps) {

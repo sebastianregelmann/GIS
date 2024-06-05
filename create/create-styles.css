@@ -8,7 +8,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     box-sizing: content-box;
 }
 
@@ -152,4 +152,115 @@ button:hover {
     color: #189AB4;
     border: 2px solid rgb(117, 230, 218);
     box-shadow: inset 0 0 10px rgba(117, 230, 218, 0.6), 0 0 9px 3px rgba(24, 154, 180, 1);
+}
+
+
+
+/************************************************************
+**************Styles for the file list **********************
+************************************************************/
+
+.fileWrapper {
+    margin: 3%;
+    padding-right: 0%;
+    width: 95%;
+    height: 60vh;
+
+    /*Layout for color inputs*/
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+ 
+
+    overflow-y: auto;
+    /* Add scrollbar if content overflows */
+}
+
+.fileContainer{
+    margin: 1%;
+    height: 30%;
+    min-height: 15%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.file {
+    background-color: grey;
+    width: 90%;
+    height: 100%;
+    display: flex;
+
+    margin: 1%;
+
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    overflow-x: auto;
+    /* Add horizontal scrollbar if content overflows */
+    overflow-y: hidden;
+    /* Prevent vertical scrollbar */
+    /*Text*/
+    color: rgb(5, 68, 94);
+    font-family: inherit;
+
+    font-size: auto;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+
+    /*background color */
+    background: linear-gradient(to right, rgba(5, 68, 94, 0.1) 1%, transparent 40%, transparent 60%, rgba(5, 68, 94, 0.1) 100%);
+
+    /*border and shape*/
+    border: 2px solid rgb(24, 154, 180);
+    border-radius: 0.6em;
+}
+
+/*Hover effect vor the control button*/
+.file:hover {
+    box-shadow: inset 0 0 0px rgba(0, 0, 0, 0), 0 0 9px 3px rgb(63, 63, 63);
+}
+
+.deleteButton{
+        /*Size and position*/
+        height: 100%;
+        width: 10%;
+        margin: 1%;
+
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center; /* Centers vertically */
+    
+        /*Text*/
+        font-size: 15px;
+        letter-spacing: 0.06em;
+        position: relative;
+        font-family: inherit;
+        color: rgb(0, 0, 0);
+    
+        /*Border and shape*/
+        border-radius: 0.6em;
+        overflow: hidden;
+        transition: all 0.3s;
+        line-height: 1.4em;
+        border: 2px solid rgb(101, 0, 0);
+        background: rgb(227, 25, 25);
+}
+
+
+/*Hover effect*/
+.deleteButton:hover {
+    color: #000000;
+    border: 2px solid rgb(107, 0, 0);
+    box-shadow: inset 0 0 10px rgba(236, 15, 15, 0.6), 0 0 9px 3px rgb(182, 50, 50);
+}
+
+
+
+
+
+/*************************************************************************/
+/*Class to make a div invisible*/
+.invisible {
+    display: none;
 }

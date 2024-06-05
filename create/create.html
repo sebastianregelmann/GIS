@@ -13,7 +13,7 @@
                 id="NameInput">
         </div>
         <div class="container">
-            <div class="color-wrapper">
+            <div class="color-wrapper" id="colorWrapper">
                 <div class=" color-row">
                     <input type="color" id="color_1"
                         onchange="colorChange(color_1)">
@@ -55,9 +55,12 @@
                         onchange="colorChange(color_16)">
                 </div>
             </div>
+
+            <div class="fileWrapper invisible" id="fileWrapper"></div>
             <div class="button-wrapper">
                 <!-- <button onclick="createSite()">load</button>-->
-                <button onclick="createSite()">create</button>
+                <button onclick="showFiles()">load</button>
+                <button onclick="createSite()" id="createButton">create</button>
             </div>
         </div>
     </body>
