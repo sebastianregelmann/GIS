@@ -180,6 +180,7 @@ function resizedWindow() {
     canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
     var maxSize = container.getBoundingClientRect();
+    maxSize.height = maxSize.height * 0.9;
     var size;
 
     //Check if height would be visible
@@ -598,9 +599,10 @@ function goForward() {
 var projectNameToWorkWith
 
 //Function is called when the site is loaded S
-function loadProjectOnSiteLoad() {
+async function loadProjectOnSiteLoad() {
     projectNameToWorkWith = localStorage.getItem("FileNameToWorkWith");
-    var projectWrapper = loadProjectFromLocalStorage(projectNameToWorkWith);
+    var projectWrapper = await loadProjectFromServer(projectNameToWorkWith);
+
     if (projectWrapper.worksteps == null) {
 
         //Create a empty workstep and pixel array
@@ -617,8 +619,6 @@ function loadProjectOnSiteLoad() {
     setColorPalette(projectWrapper.colors);
     //Set the first color
     setColorOnLoad();
-    //Fill the file list
-    fillFileNames();
 
 
     //Set project name
@@ -630,14 +630,6 @@ function loadProjectOnSiteLoad() {
     drawFromPixelArray(pixelArray);
 }
 
-
-//Called when clicled on a file in the file list
-function loadProjectFromFileList(id) {
-    projectNameToWorkWith = id;
-    localStorage.setItem("FileNameToWorkWith", projectNameToWorkWith);
-    loadProjectOnSiteLoad();
-}
-
 //Function to save a project too the local storage
 function saveProjectToLocalStorage() {
     var name = projectNameToWorkWith;
@@ -647,6 +639,20 @@ function saveProjectToLocalStorage() {
 
     // Save the JSON string to local storage
     localStorage.setItem(name, jsonString);
+
+    // Save the name on to load the working project
+    localStorage.setItem("FileNameToWorkWith", name);
+}
+
+async function saveProjectToServer() {
+    var name = projectNameToWorkWith;
+    var objectToSave = new ProjectWrapper(name, getColorPalleteAsArray(), worksteps);
+
+    //Create the json string
+    const jsonString = JSON.stringify(objectToSave);
+    
+    //Save the worksteps in the database
+    await updateData(name, jsonString);
 
     // Save the name on to load the working project
     localStorage.setItem("FileNameToWorkWith", name);
@@ -664,64 +670,21 @@ function loadProjectFromLocalStorage(name) {
     return new ProjectWrapper(object.name, object.colors, object.worksteps)
 }
 
+//Function to load a project from the database
+async function loadProjectFromServer(name) {
+    // Retrieving the JSON string from the database
+    const jsonString = await getData(name);
 
-////////////////////////////////////////////////////////////////
-///////Functions for the File list /////////////////////////////
-////////////////////////////////////////////////////////////////
-
-function makeFileListVisible() {
-    var div = document.getElementById("fileList");
-    // Toggle the CSS class to show/hide the div
-    div.classList.toggle("inVisible");
+    // Parsing the JSON string back into an object
+    var object = JSON.parse(jsonString);
+    console.log(object);
+    return new ProjectWrapper(object.name, object.colors, object.worksteps)
 }
 
-////////////////////////////////////////////////////////////////////
-//Fill the file list with the nmaes of the file in local storage
-function fillFileNames() {
-    // Get all keys stored in the local storage
-    var keys = Object.keys(localStorage);
-
-    // Loop through the keys and retrieve the name of all the projects
-    var projects = [];
-    keys.forEach(function (key) {
-
-        if (key != "FileNameToWorkWith") {
-            //Get the name of the projcet
-            var name = JSON.parse(localStorage.getItem(key)).name;
-
-            projects.push(name);
-        }
-
-    });
-
-    //Clear the file list
-    while (document.getElementById("fileList").firstChild) {
-        document.getElementById("fileList").removeChild(document.getElementById("fileList").firstChild);
-    }
-
-    for (var i = 0; i < projects.length; i++) {
-        // Create a new div element
-        var newDiv = document.createElement("div");
-
-        // Set the id
-        newDiv.id = projects[i];
-        //Set the 
-        newDiv.textContent = projects[i];
-        newDiv.classList.add("file");
-        // Event listener for the div
-        newDiv.addEventListener('click', function () {
-            // When the div is clicked, call loadProjectFromLocalStorage with the id
-            loadProjectFromFileList(this.id);
-        });
-        // Append the new div to the parent div
-        document.getElementById("fileList").appendChild(newDiv);
-    }
-}
 
 /////////////////////////////////////////////////////////////////////////////////////
 //Function to change site to create site
 function changeToCreate() {
-    //Change the site
     window.location.href = '../create/create.html';
 }
 
@@ -736,11 +699,57 @@ function downloadCanvas() {
     link.click();
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////Methods to load from database with backend///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+//Method that gets the project data from the data base
+async function getData(projectName) {
+    const url = "http://127.0.0.1:3000/getProject?name=" + projectName;
+
+    const response = await fetch(url)
+    const text = await response.text();
+    console.log(text);
+
+    return text;
+}
+
+
+///////////////////////////////////////////////////
+//Method that updates the project data in the data base
+async function updateData(projectName, jsonString) {
+    const url = "http://127.0.0.1:3000/updateProject?name=" + projectName;
+    //Send message to server to save the string
+    const data = jsonString;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain'
+        },
+        body: data
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.text(); // Use response.text() for plain text
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+
+
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 class ProjectWrapper {
     constructor(name, colors, worksteps) {
         this.name = name;
         this.colors = colors;
         this.worksteps = worksteps;
     }
-
 }
