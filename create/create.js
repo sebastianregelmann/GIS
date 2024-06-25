@@ -46,15 +46,22 @@ function colorChange(colorId) {
     colorPalette[colorId.id] = colorId.value;
 }
 
-function createSite() {
+async function createSite() {
     var nameInput = document.getElementById("NameInput");
     var name = nameInput.value;
+
+    //Get all file names from the database
+    var jsonStringNames = await getNames();
+    //Convert the response to an json object
+    var projects = JSON.parse(jsonStringNames);
+
+    
     //Check if projekt has a name
     if (name == "") {
         alert("No Projekt Name");
         return;
     }
-    if (localStorage.getItem(name) !== null) {
+    if (projects.includes(name)) {
         alert("File already exists");
         return;
     }
@@ -63,9 +70,6 @@ function createSite() {
     var objectToSave = new ProjectWrapper(name, colorPalette, null)
 
     const jsonString = JSON.stringify(objectToSave);
-
-    // Save the JSON string to local storage
-    //localStorage.setItem(name, jsonString);
 
     //Send the new project to the database
     createEntry(jsonString)
@@ -170,7 +174,7 @@ async function deleteFile(id) {
         //update the file list
         fillFileList();
     }
-} 
+}
 
 function loadFile(id) {
     projectNameToWorkWith = id;
